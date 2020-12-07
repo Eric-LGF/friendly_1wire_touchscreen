@@ -9,7 +9,7 @@
 #include <linux/hrtimer.h>
 #include <linux/ktime.h>
 #include <linux/proc_fs.h>
-
+#include <linux/backlight.h>
 
 #define TOUCH_DEVICE_NAME	    "touchscreen-1wire"
 #define BACKLIGHT_DEVICE_NAME	"backlight-1wire"
@@ -32,6 +32,7 @@ enum {
 struct one_wire {
 	struct device *dev;
 	struct input_dev *input;
+	struct platform_device *bl_dev;
 	struct hrtimer hr_timer;
 	int gpio;
 
@@ -41,13 +42,19 @@ struct one_wire {
 	unsigned long xp;
 	unsigned long yp;
 
-	unsigned char backlight;
 	unsigned char backlight_init_success;
-	unsigned char bl_ready;
 	unsigned char backlight_req;
 };
 
 static struct one_wire dev_1wire;
+
+static void onewire_bl_set_intensity(int intensity)
+{
+	if (intensity > 127 || intensity < 0)
+		intensity = 127;
+	
+	dev_1wire.backlight_req = intensity;
+}
 
 static inline void notify_ts_data(unsigned x, unsigned y, unsigned down)
 {
@@ -75,9 +82,7 @@ static inline void notify_ts_data(unsigned x, unsigned y, unsigned down)
 
 static inline void notify_bl_data(unsigned char a, unsigned char b, unsigned char c)
 {
-	dev_1wire.bl_ready = 1;
 	dev_1wire.backlight_init_success = 1;
-	//wake_up_interruptible(&bl_waitq);
 }
 
 static inline void notify_info_data(unsigned char _lcd_type, unsigned char ver_year, unsigned char week)
@@ -174,7 +179,7 @@ static void one_wire_session_complete(unsigned char req, unsigned int res)
 		// CRC dismatch
 		if (error_count > 100) {
 			total_received++;
-			
+
 			error_count = 0;
 			printk("%x %x: crc error. %d",req, res, total_error);
 		} 
@@ -301,13 +306,21 @@ static enum hrtimer_restart timer_for_1wire_interrupt(struct hrtimer *hrtimer)
 	return HRTIMER_RESTART;
 }
 
-// static int read_proc(char *buf, char **start, off_t offset, int count, int *eof, void *data)
-// {
-// 	int len;
-// 	len = sprintf(buf, "%u %u %u %u %04X %08X\n", lcd_type, firmware_ver, total_received, total_error, last_req, last_res);
-// 	*eof = 1;
-// 	return len;
-// }
+
+static struct generic_bl_info onewire_bl_info = {
+	.name			= BACKLIGHT_DEVICE_NAME,
+	.max_intensity	= 0x7f,
+	.default_intensity = 0x7f,
+	.set_bl_intensity	= onewire_bl_set_intensity,
+};
+
+static struct platform_device onewire_bl_dev = {
+	.name	= "generic-bl",
+	.id		= 1,
+	.dev	= {
+		.platform_data = &onewire_bl_info,
+	},
+};
 
 static int one_wire_probe(struct platform_device *pdev)
 {
@@ -368,13 +381,21 @@ static int one_wire_probe(struct platform_device *pdev)
 		goto err_gpio;
 	}
 
+	dev_1wire.bl_dev = &onewire_bl_dev;
+	ret = platform_device_register(dev_1wire.bl_dev);
+	if (ret < 0) {
+		dev_err(dev, "failed to register bl device\n");
+		ret = -EIO;
+		goto err_input;
+	}
+
     // start hrtimer
     hrtimer_start(&dev_1wire.hr_timer, ktime_set(0,SAMPLE_PERIOD_NANO), HRTIMER_MODE_REL);
 
-	//create_proc_read_entry("driver/one-wire-info", 0, NULL, read_proc, NULL);
-
 	return 0;
 
+err_input:
+	input_unregister_device(dev_1wire.input);
 err_gpio:
 	gpio_free(dev_1wire.gpio);
 err_exit:
@@ -388,7 +409,7 @@ static int one_wire_remove(struct platform_device *pdev)
     hrtimer_cancel(&dev_1wire.hr_timer);
 	gpio_free(dev_1wire.gpio);
 	input_unregister_device(dev_1wire.input);
-	//remove_proc_entry("driver/one-wire-info", NULL);
+	platform_device_unregister(dev_1wire.bl_dev);
 
 	return 0;
 }
