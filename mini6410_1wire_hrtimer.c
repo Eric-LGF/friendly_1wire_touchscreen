@@ -3,6 +3,7 @@
 #include <linux/of.h>
 #include <linux/of_gpio.h>
 #include <linux/platform_device.h>
+#include <linux/input.h>
 #include <linux/gpio.h>
 #include <linux/delay.h>
 #include <linux/hrtimer.h>
@@ -14,6 +15,7 @@
 #define BACKLIGHT_DEVICE_NAME	"backlight-1wire"
 #define SAMPLE_BPS 9600
 #define BIT_NANOSECONDS     (1000000000UL / SAMPLE_BPS)
+#define SAMPLE_PERIOD_NANO	(50 * 1000000)	// ms
 
 #define REQ_TS   0x40U
 #define REQ_INFO 0x60U
@@ -27,49 +29,68 @@ enum {
 	STOPING,
 } one_wire_status = IDLE;
 
-static int one_wire_gpio = 0;
-static struct hrtimer hr_timer;
-static unsigned lcd_type, firmware_ver;
+struct one_wire {
+	struct device *dev;
+	struct input_dev *input;
+	struct hrtimer hr_timer;
+	int gpio;
 
+	unsigned int lcd_type;
+	unsigned int firmware_ver;
+	
+	unsigned long xp;
+	unsigned long yp;
 
-static int bl_ready;
-static unsigned char backlight_req = 0;
-static unsigned char backlight_init_success;
+	unsigned char backlight;
+	unsigned char backlight_init_success;
+	unsigned char bl_ready;
+	unsigned char backlight_req;
+};
 
+static struct one_wire dev_1wire;
 
 static inline void notify_ts_data(unsigned x, unsigned y, unsigned down)
 {
-	printk("x = %d, y = %d, down= %d\n", x, y, down);
+	if (down) {
+		dev_1wire.xp = x;
+		dev_1wire.yp = y;
 
-	// if (!down && !(ts_status &(1U << 31))) {
-	// 	// up repeat, give it up
-	// 	return;
-	// }
+		dev_dbg(dev_1wire.dev, "%s: X=%lu, Y=%lu\n",
+			__func__, dev_1wire.xp, dev_1wire.yp);
+		
+		input_report_abs(dev_1wire.input, ABS_X, dev_1wire.xp);
+		input_report_abs(dev_1wire.input, ABS_Y, dev_1wire.yp);
 
-	// ts_status = ((x << 16) | (y)) | (down << 31);
-	// ts_ready = 1;
-	// wake_up_interruptible(&ts_waitq);
+		input_report_key(dev_1wire.input, BTN_TOUCH, 1);
+		input_sync(dev_1wire.input);
+	} else {
+		dev_1wire.xp = 0;
+		dev_1wire.yp = 0;
+
+		input_report_key(dev_1wire.input, BTN_TOUCH, 0);
+		input_sync(dev_1wire.input);
+	}
 }
 
 
 static inline void notify_bl_data(unsigned char a, unsigned char b, unsigned char c)
 {
-	bl_ready = 1;
-	backlight_init_success = 1;
+	dev_1wire.bl_ready = 1;
+	dev_1wire.backlight_init_success = 1;
 	//wake_up_interruptible(&bl_waitq);
 }
 
 static inline void notify_info_data(unsigned char _lcd_type, unsigned char ver_year, unsigned char week)
 {
 	if (_lcd_type != 0xFF) {
-		lcd_type = _lcd_type;
-		firmware_ver = ver_year * 100 + week;
+		dev_1wire.lcd_type = _lcd_type;
+		dev_1wire.firmware_ver = ver_year * 100 + week;
 	}
 }
 
 static void set_pin_as_input(void)
 {
-	gpio_direction_input(one_wire_gpio);
+	gpio_direction_input(dev_1wire.gpio);
 }
 
 static void set_pin_as_output(void)
@@ -78,12 +99,12 @@ static void set_pin_as_output(void)
 
 static void set_pin_value(int v)
 {
-	gpio_direction_output(one_wire_gpio, v);
+	gpio_direction_output(dev_1wire.gpio, v);
 }
 
 static int get_pin_value(void)
 {
-	return gpio_get_value(one_wire_gpio);
+	return gpio_get_value(dev_1wire.gpio);
 }
 
 
@@ -137,6 +158,7 @@ static unsigned total_received, total_error;
 static unsigned last_req, last_res;
 static void one_wire_session_complete(unsigned char req, unsigned int res)
 {
+	static unsigned error_count = 0;
 	unsigned char crc;
 	const unsigned char *p = (const unsigned char*)&res;
 	total_received ++;
@@ -148,15 +170,18 @@ static void one_wire_session_complete(unsigned char req, unsigned int res)
 	crc8(crc, p[2]);
 	crc8(crc, p[1]);
 	if (crc != p[0]) {
+		error_count++;
 		// CRC dismatch
-		if (total_received > 100) {
-			total_error++;
-		}
-
-        printk("%x %x: crc error. %d",req, res, total_error);
+		if (error_count > 100) {
+			total_received++;
+			
+			error_count = 0;
+			printk("%x %x: crc error. %d",req, res, total_error);
+		} 
 		return;
-	}
-	printk("req = %#x, res = %#x\n", req, res);
+	} else
+		error_count = 0;
+
 	switch(req) {
 	case REQ_TS:
 		{
@@ -182,13 +207,13 @@ static void one_wire_prepare(void)
 {
     unsigned char req;
 
-    if (lcd_type == 0) {
+    if (dev_1wire.lcd_type == 0) {
         req = REQ_INFO;
-    } else if (!backlight_init_success) {
+    } else if (!dev_1wire.backlight_init_success) {
         req = 127;
-    } else if (backlight_req) {
-        req = backlight_req;
-        backlight_req = 0;
+    } else if (dev_1wire.backlight_req) {
+        req = dev_1wire.backlight_req;
+        dev_1wire.backlight_req = 0;
     } else {
         req = REQ_TS;
     }
@@ -262,7 +287,7 @@ static enum hrtimer_restart timer_for_1wire_interrupt(struct hrtimer *hrtimer)
 	case STOPING:
 		if (io_bit_count == 0) {
 			one_wire_status = IDLE;
-            hrtimer_forward_now(&hr_timer, ktime_set(1, 20*1000000));
+            hrtimer_forward_now(hrtimer, ktime_set(0, SAMPLE_PERIOD_NANO));
             return HRTIMER_RESTART;
 		}
 		break;
@@ -271,7 +296,7 @@ static enum hrtimer_restart timer_for_1wire_interrupt(struct hrtimer *hrtimer)
         break;
 	}
 
-	hrtimer_forward_now(&hr_timer, ktime_set(0, BIT_NANOSECONDS));
+	hrtimer_forward_now(hrtimer, ktime_set(0, BIT_NANOSECONDS));
 
 	return HRTIMER_RESTART;
 }
@@ -286,15 +311,22 @@ static enum hrtimer_restart timer_for_1wire_interrupt(struct hrtimer *hrtimer)
 
 static int one_wire_probe(struct platform_device *pdev)
 {
+	struct device *dev = &pdev->dev;
+	struct input_dev *input_dev;
 	struct device_node *gpio_node = pdev->dev.of_node;
+	int one_wire_gpio = 0;
+	int ret = 0;
 
-	printk("one wire probe\n");
+	memset(&dev_1wire, 0, sizeof(struct one_wire));
+
+	dev_1wire.dev = dev;
 
 	one_wire_gpio = of_get_named_gpio(gpio_node, "gpios", 0);
     if (!gpio_is_valid(one_wire_gpio)) {
 		printk("gpio: %d is invalid\n", one_wire_gpio);
 
-		return -ENODEV;
+		ret = -ENODEV;
+		goto err_exit;
 	}
 
 	// 请求控制获取的gpio
@@ -302,29 +334,60 @@ static int one_wire_probe(struct platform_device *pdev)
 		printk("gpio %d request failed\n", one_wire_gpio);
 		gpio_free(one_wire_gpio);
 		
-		return -ENODEV;
+		ret = -ENODEV;
+		goto err_exit;
 	}
 
-    hrtimer_init(&hr_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-    hr_timer.function = timer_for_1wire_interrupt;
+	dev_1wire.gpio = one_wire_gpio;
+
+    hrtimer_init(&dev_1wire.hr_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+    dev_1wire.hr_timer.function = timer_for_1wire_interrupt;
+
+	input_dev = input_allocate_device();
+	if (!input_dev) {
+		dev_err(dev, "Unable to allocate the input device !!\n");
+		ret = -ENOMEM;
+		goto err_gpio;
+	}
+	dev_1wire.input = input_dev;
+	dev_1wire.input->evbit[0] = BIT_MASK(EV_KEY) | BIT_MASK(EV_ABS);
+	dev_1wire.input->keybit[BIT_WORD(BTN_TOUCH)] = BIT_MASK(BTN_TOUCH);
+	input_set_abs_params(dev_1wire.input, ABS_X, 0, 0xFFF, 0, 0);
+	input_set_abs_params(dev_1wire.input, ABS_Y, 0, 0xFFF, 0, 0);
+
+	dev_1wire.input->name = TOUCH_DEVICE_NAME;
+	dev_1wire.input->id.bustype = BUS_HOST;
+	dev_1wire.input->id.vendor = 0xDEAD;
+	dev_1wire.input->id.product = 0xBEEF;
+	dev_1wire.input->id.version = 0x0102;
+
+	ret = input_register_device(dev_1wire.input);
+	if (ret < 0) {
+		dev_err(dev, "failed to register input device\n");
+		ret = -EIO;
+		goto err_gpio;
+	}
 
     // start hrtimer
-    hrtimer_start(&hr_timer, ktime_set(1,0), HRTIMER_MODE_REL);
-
+    hrtimer_start(&dev_1wire.hr_timer, ktime_set(0,SAMPLE_PERIOD_NANO), HRTIMER_MODE_REL);
 
 	//create_proc_read_entry("driver/one-wire-info", 0, NULL, read_proc, NULL);
 
 	return 0;
 
+err_gpio:
+	gpio_free(dev_1wire.gpio);
+err_exit:
+	return ret;
 }
 
 static int one_wire_remove(struct platform_device *pdev)
 {
 	printk("one wire remove\n");
     
-    hrtimer_cancel(&hr_timer);
-	gpio_free(one_wire_gpio);
-
+    hrtimer_cancel(&dev_1wire.hr_timer);
+	gpio_free(dev_1wire.gpio);
+	input_unregister_device(dev_1wire.input);
 	//remove_proc_entry("driver/one-wire-info", NULL);
 
 	return 0;

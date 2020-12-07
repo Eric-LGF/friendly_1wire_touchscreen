@@ -1,0 +1,157 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/f66acf79/
+BACKLIGHT_DEVICE_NAME	mini6410_1wire_hrtimer.c	/^#define BACKLIGHT_DEVICE_NAME	/;"	d	file:
+BACKLIGHT_DEVICE_NAME	mini6410_1wire_interrupt.c	/^#define BACKLIGHT_DEVICE_NAME	/;"	d	file:
+BIT_NANOSECONDS	mini6410_1wire_hrtimer.c	/^#define BIT_NANOSECONDS /;"	d	file:
+BIT_NANOSECONDS	mini6410_1wire_interrupt.c	/^#define BIT_NANOSECONDS /;"	d	file:
+DEBUG	mini6410_1wire_interrupt.c	/^#define DEBUG$/;"	d	file:
+DPRINTK	mini6410_1wire_interrupt.c	/^#define DPRINTK(/;"	d	file:
+IDLE	mini6410_1wire_hrtimer.c	/^	IDLE,$/;"	e	enum:__anon5ff80b0f0103	file:
+IDLE	mini6410_1wire_interrupt.c	/^	IDLE,$/;"	e	enum:__anona1e331210103	file:
+KERNELDIR	Makefile	/^	KERNELDIR ?= ~\/linux-develop\/linux-4.19.78\/$/;"	m
+OneWireSession	one-wire.c	/^static int OneWireSession(unsigned char req, unsigned char res[])$/;"	f	typeref:typename:int	file:
+PWD	Makefile	/^	PWD ?= $(shell pwd)$/;"	m
+PWM_CHANNEL	mini6410_1wire_interrupt.c	/^#define PWM_CHANNEL	/;"	d	file:
+REG_TCFG0	mini6410_1wire_interrupt.c	/^#define REG_TCFG0	/;"	d	file:
+REG_TCFG1	mini6410_1wire_interrupt.c	/^#define REG_TCFG1	/;"	d	file:
+REG_TCMPB	mini6410_1wire_interrupt.c	/^#define REG_TCMPB(/;"	d	file:
+REG_TCNTB	mini6410_1wire_interrupt.c	/^#define REG_TCNTB(/;"	d	file:
+REG_TCON	mini6410_1wire_interrupt.c	/^#define REG_TCON	/;"	d	file:
+REG_TINT_CSTAT	mini6410_1wire_interrupt.c	/^#define REG_TINT_CSTAT	/;"	d	file:
+REQUEST	mini6410_1wire_hrtimer.c	/^	REQUEST,$/;"	e	enum:__anon5ff80b0f0103	file:
+REQUEST	mini6410_1wire_interrupt.c	/^	REQUEST,$/;"	e	enum:__anona1e331210103	file:
+REQ_INFO	mini6410_1wire_hrtimer.c	/^#define REQ_INFO /;"	d	file:
+REQ_INFO	mini6410_1wire_interrupt.c	/^#define REQ_INFO /;"	d	file:
+REQ_TS	mini6410_1wire_hrtimer.c	/^#define REQ_TS /;"	d	file:
+REQ_TS	mini6410_1wire_interrupt.c	/^#define REQ_TS /;"	d	file:
+RESPONSE	mini6410_1wire_hrtimer.c	/^	RESPONSE,$/;"	e	enum:__anon5ff80b0f0103	file:
+RESPONSE	mini6410_1wire_interrupt.c	/^	RESPONSE,$/;"	e	enum:__anona1e331210103	file:
+SAMPLE_BPS	mini6410_1wire_hrtimer.c	/^#define SAMPLE_BPS /;"	d	file:
+SAMPLE_BPS	mini6410_1wire_interrupt.c	/^#define SAMPLE_BPS /;"	d	file:
+START	mini6410_1wire_hrtimer.c	/^	START,$/;"	e	enum:__anon5ff80b0f0103	file:
+START	mini6410_1wire_interrupt.c	/^	START,$/;"	e	enum:__anona1e331210103	file:
+STOPING	mini6410_1wire_hrtimer.c	/^	STOPING,$/;"	e	enum:__anon5ff80b0f0103	file:
+STOPING	mini6410_1wire_interrupt.c	/^	STOPING,$/;"	e	enum:__anona1e331210103	file:
+SetBacklightOfLCD	one-wire.c	/^int SetBacklightOfLCD(unsigned Brightness)$/;"	f	typeref:typename:int
+StartTimer	one-wire.c	/^static void StartTimer(void)$/;"	f	typeref:typename:void	file:
+StopTimer	one-wire.c	/^static void StopTimer(void)$/;"	f	typeref:typename:void	file:
+TCFG0_PRESCALER1_SHIFT	mini6410_1wire_interrupt.c	/^#define TCFG0_PRESCALER1_SHIFT	/;"	d	file:
+TCFG0_PRESCALER_MASK	mini6410_1wire_interrupt.c	/^#define TCFG0_PRESCALER_MASK	/;"	d	file:
+TCFG1_MUX_MASK	mini6410_1wire_interrupt.c	/^#define TCFG1_MUX_MASK	/;"	d	file:
+TCFG1_SHIFT	mini6410_1wire_interrupt.c	/^#define TCFG1_SHIFT(/;"	d	file:
+TCNT_FOR_SAMPLE_BIT	mini6410_1wire_interrupt.c	/^static unsigned long TCNT_FOR_SAMPLE_BIT;$/;"	v	typeref:typename:unsigned long	file:
+TCON_AUTORELOAD	mini6410_1wire_interrupt.c	/^#define TCON_AUTORELOAD(/;"	d	file:
+TCON_INVERT	mini6410_1wire_interrupt.c	/^#define TCON_INVERT(/;"	d	file:
+TCON_MANUALUPDATE	mini6410_1wire_interrupt.c	/^#define TCON_MANUALUPDATE(/;"	d	file:
+TCON_START	mini6410_1wire_interrupt.c	/^#define TCON_START(/;"	d	file:
+TOUCH_DEVICE_NAME	mini6410_1wire_hrtimer.c	/^#define TOUCH_DEVICE_NAME	/;"	d	file:
+TOUCH_DEVICE_NAME	mini6410_1wire_interrupt.c	/^#define TOUCH_DEVICE_NAME	/;"	d	file:
+TryOneWireSession	one-wire.c	/^static int TryOneWireSession(unsigned char req, unsigned char res[])$/;"	f	typeref:typename:int	file:
+WAITING	mini6410_1wire_hrtimer.c	/^	WAITING,$/;"	e	enum:__anon5ff80b0f0103	file:
+WAITING	mini6410_1wire_interrupt.c	/^	WAITING,$/;"	e	enum:__anona1e331210103	file:
+WaitTimerTick	one-wire.c	/^static void WaitTimerTick(void)$/;"	f	typeref:typename:void	file:
+_TCON_AUTORELOAD	mini6410_1wire_interrupt.c	/^#define _TCON_AUTORELOAD(/;"	d	file:
+_TCON_AUTORELOAD4	mini6410_1wire_interrupt.c	/^#define _TCON_AUTORELOAD4(/;"	d	file:
+__anon5ff80b0f0103	mini6410_1wire_hrtimer.c	/^enum {$/;"	g	file:
+__anona1e331210103	mini6410_1wire_interrupt.c	/^enum {$/;"	g	file:
+__module_depends	mini6410_1wire_hrtimer.mod.c	/^static const char __module_depends[]$/;"	v	typeref:typename:const char[]__used	file:
+__this_module	mini6410_1wire_hrtimer.mod.c	/^__visible struct module __this_module$/;"	v	typeref:struct:module
+backlight_init_success	mini6410_1wire_hrtimer.c	/^static unsigned char backlight_init_success;$/;"	v	typeref:typename:unsigned char	file:
+backlight_init_success	mini6410_1wire_interrupt.c	/^static unsigned char backlight_init_success;$/;"	v	typeref:typename:unsigned char	file:
+backlight_req	mini6410_1wire_hrtimer.c	/^static unsigned char backlight_req = 0;$/;"	v	typeref:typename:unsigned char	file:
+backlight_req	mini6410_1wire_interrupt.c	/^static unsigned char backlight_req = 0;$/;"	v	typeref:typename:unsigned char	file:
+base	mini6410_1wire_interrupt.c	/^static void __iomem *base = 0;$/;"	v	typeref:typename:void __iomem *	file:
+bl_ready	mini6410_1wire_hrtimer.c	/^static int bl_ready;$/;"	v	typeref:typename:int	file:
+bl_ready	mini6410_1wire_interrupt.c	/^static int bl_ready;$/;"	v	typeref:typename:int	file:
+clean	Makefile	/^clean:$/;"	t
+crc8	mini6410_1wire_hrtimer.c	/^#define crc8(/;"	d	file:
+crc8	mini6410_1wire_interrupt.c	/^#define crc8(/;"	d	file:
+crc8	one-wire.c	/^static unsigned char crc8(unsigned v, unsigned len)$/;"	f	typeref:typename:unsigned char	file:
+crc8_init	mini6410_1wire_hrtimer.c	/^#define crc8_init(/;"	d	file:
+crc8_init	mini6410_1wire_interrupt.c	/^#define crc8_init(/;"	d	file:
+crc8_tab	mini6410_1wire_hrtimer.c	/^static const unsigned char crc8_tab[] = {$/;"	v	typeref:typename:const unsigned char[]	file:
+crc8_tab	mini6410_1wire_interrupt.c	/^static const unsigned char crc8_tab[] = {$/;"	v	typeref:typename:const unsigned char[]	file:
+exitting	mini6410_1wire_interrupt.c	/^static int exitting;$/;"	v	typeref:typename:int	file:
+firmware_ver	mini6410_1wire_hrtimer.c	/^static unsigned lcd_type, firmware_ver;$/;"	v	typeref:typename:unsigned	file:
+firmware_ver	mini6410_1wire_interrupt.c	/^static unsigned lcd_type, firmware_ver;$/;"	v	typeref:typename:unsigned	file:
+get_pin_value	mini6410_1wire_hrtimer.c	/^static int get_pin_value(void)$/;"	f	typeref:typename:int	file:
+get_pin_value	mini6410_1wire_interrupt.c	/^static int get_pin_value(void)$/;"	f	typeref:typename:int	file:
+get_pin_value	one-wire.c	/^static int get_pin_value(void)$/;"	f	typeref:typename:int	file:
+hr_timer	mini6410_1wire_hrtimer.c	/^static struct hrtimer hr_timer;$/;"	v	typeref:struct:hrtimer	file:
+hr_timer	mini6410_1wire_interrupt.c	/^static struct hrtimer hr_timer;$/;"	v	typeref:struct:hrtimer	file:
+init_timer_for_1wire	mini6410_1wire_interrupt.c	/^static int init_timer_for_1wire(void)$/;"	f	typeref:typename:int	file:
+io_bit_count	mini6410_1wire_hrtimer.c	/^static volatile unsigned int io_bit_count;$/;"	v	typeref:typename:volatile unsigned int	file:
+io_bit_count	mini6410_1wire_interrupt.c	/^static volatile unsigned int io_bit_count;$/;"	v	typeref:typename:volatile unsigned int	file:
+io_data	mini6410_1wire_hrtimer.c	/^static volatile unsigned int io_data;$/;"	v	typeref:typename:volatile unsigned int	file:
+io_data	mini6410_1wire_interrupt.c	/^static volatile unsigned int io_data;$/;"	v	typeref:typename:volatile unsigned int	file:
+irq_num	mini6410_1wire_interrupt.c	/^static int irq_num = 0;$/;"	v	typeref:typename:int	file:
+last_req	mini6410_1wire_hrtimer.c	/^static unsigned last_req, last_res;$/;"	v	typeref:typename:unsigned	file:
+last_req	mini6410_1wire_interrupt.c	/^static unsigned last_req, last_res;$/;"	v	typeref:typename:unsigned	file:
+last_res	mini6410_1wire_hrtimer.c	/^static unsigned last_req, last_res;$/;"	v	typeref:typename:unsigned	file:
+last_res	mini6410_1wire_interrupt.c	/^static unsigned last_req, last_res;$/;"	v	typeref:typename:unsigned	file:
+lcd_type	mini6410_1wire_hrtimer.c	/^static unsigned lcd_type, firmware_ver;$/;"	v	typeref:typename:unsigned	file:
+lcd_type	mini6410_1wire_interrupt.c	/^static unsigned lcd_type, firmware_ver;$/;"	v	typeref:typename:unsigned	file:
+modules	Makefile	/^modules:$/;"	t
+modules_install	Makefile	/^modules_install:$/;"	t
+notify_bl_data	mini6410_1wire_hrtimer.c	/^static inline void notify_bl_data(unsigned char a, unsigned char b, unsigned char c)$/;"	f	typeref:typename:void	file:
+notify_bl_data	mini6410_1wire_interrupt.c	/^static inline void notify_bl_data(unsigned char a, unsigned char b, unsigned char c)$/;"	f	typeref:typename:void	file:
+notify_info_data	mini6410_1wire_hrtimer.c	/^static inline void notify_info_data(unsigned char _lcd_type, unsigned char ver_year, unsigned ch/;"	f	typeref:typename:void	file:
+notify_info_data	mini6410_1wire_interrupt.c	/^static inline void notify_info_data(unsigned char _lcd_type, unsigned char ver_year, unsigned ch/;"	f	typeref:typename:void	file:
+notify_ts_data	mini6410_1wire_hrtimer.c	/^static inline void notify_ts_data(unsigned x, unsigned y, unsigned down)$/;"	f	typeref:typename:void	file:
+notify_ts_data	mini6410_1wire_interrupt.c	/^static inline void notify_ts_data(unsigned x, unsigned y, unsigned down)$/;"	f	typeref:typename:void	file:
+obj-m	Makefile	/^	obj-m := mini6410_1wire_hrtimer.o$/;"	m
+one_wire_driver	mini6410_1wire_hrtimer.c	/^static struct platform_driver one_wire_driver = {$/;"	v	typeref:struct:platform_driver	file:
+one_wire_driver	mini6410_1wire_interrupt.c	/^static struct platform_driver one_wire_driver = {$/;"	v	typeref:struct:platform_driver	file:
+one_wire_driver	one-wire.c	/^static struct platform_driver one_wire_driver = {$/;"	v	typeref:struct:platform_driver	file:
+one_wire_dt_ids	mini6410_1wire_hrtimer.c	/^static const struct of_device_id one_wire_dt_ids[] = {$/;"	v	typeref:typename:const struct of_device_id[]	file:
+one_wire_dt_ids	mini6410_1wire_interrupt.c	/^static const struct of_device_id one_wire_dt_ids[] = {$/;"	v	typeref:typename:const struct of_device_id[]	file:
+one_wire_dt_ids	one-wire.c	/^static const struct of_device_id one_wire_dt_ids[] = {$/;"	v	typeref:typename:const struct of_device_id[]	file:
+one_wire_exit	mini6410_1wire_hrtimer.c	/^static void __exit one_wire_exit(void)$/;"	f	typeref:typename:void __exit	file:
+one_wire_exit	mini6410_1wire_interrupt.c	/^static void __exit one_wire_exit(void)$/;"	f	typeref:typename:void __exit	file:
+one_wire_exit	one-wire.c	/^static void __exit one_wire_exit(void)$/;"	f	typeref:typename:void __exit	file:
+one_wire_gpio	mini6410_1wire_hrtimer.c	/^static int one_wire_gpio = 0;$/;"	v	typeref:typename:int	file:
+one_wire_gpio	mini6410_1wire_interrupt.c	/^static int one_wire_gpio = 0;$/;"	v	typeref:typename:int	file:
+one_wire_gpio	one-wire.c	/^int one_wire_gpio = 0;$/;"	v	typeref:typename:int
+one_wire_init	mini6410_1wire_hrtimer.c	/^static int __init one_wire_init(void)$/;"	f	typeref:typename:int __init	file:
+one_wire_init	mini6410_1wire_interrupt.c	/^static int __init one_wire_init(void)$/;"	f	typeref:typename:int __init	file:
+one_wire_init	one-wire.c	/^static int __init one_wire_init(void)$/;"	f	typeref:typename:int __init	file:
+one_wire_prepare	mini6410_1wire_hrtimer.c	/^static void one_wire_prepare(void)$/;"	f	typeref:typename:void	file:
+one_wire_probe	mini6410_1wire_hrtimer.c	/^static int one_wire_probe(struct platform_device *pdev)$/;"	f	typeref:typename:int	file:
+one_wire_probe	mini6410_1wire_interrupt.c	/^static int one_wire_probe(struct platform_device *pdev)$/;"	f	typeref:typename:int	file:
+one_wire_probe	one-wire.c	/^static int one_wire_probe(struct platform_device *pdev)$/;"	f	typeref:typename:int	file:
+one_wire_remove	mini6410_1wire_hrtimer.c	/^static int one_wire_remove(struct platform_device *pdev)$/;"	f	typeref:typename:int	file:
+one_wire_remove	mini6410_1wire_interrupt.c	/^static int one_wire_remove(struct platform_device *pdev)$/;"	f	typeref:typename:int	file:
+one_wire_remove	one-wire.c	/^static int one_wire_remove(struct platform_device *pdev)$/;"	f	typeref:typename:int	file:
+one_wire_request	mini6410_1wire_hrtimer.c	/^static volatile unsigned char one_wire_request;$/;"	v	typeref:typename:volatile unsigned char	file:
+one_wire_request	mini6410_1wire_interrupt.c	/^static volatile unsigned char one_wire_request;$/;"	v	typeref:typename:volatile unsigned char	file:
+one_wire_session_complete	mini6410_1wire_hrtimer.c	/^static void one_wire_session_complete(unsigned char req, unsigned int res)$/;"	f	typeref:typename:void	file:
+one_wire_session_complete	mini6410_1wire_interrupt.c	/^static void one_wire_session_complete(unsigned char req, unsigned int res)$/;"	f	typeref:typename:void	file:
+one_wire_setup	one-wire.c	/^static int one_wire_setup(void)$/;"	f	typeref:typename:int	file:
+one_wire_status	mini6410_1wire_hrtimer.c	/^} one_wire_status = IDLE;$/;"	v	typeref:enum:__anon5ff80b0f0103
+one_wire_status	mini6410_1wire_interrupt.c	/^} one_wire_status = IDLE;$/;"	v	typeref:enum:__anona1e331210103
+one_wire_timer_proc	mini6410_1wire_interrupt.c	/^static enum hrtimer_restart one_wire_timer_proc(struct hrtimer *hrtimer)$/;"	f	typeref:enum:hrtimer_restart	file:
+set_pin_as_input	mini6410_1wire_hrtimer.c	/^static void set_pin_as_input(void)$/;"	f	typeref:typename:void	file:
+set_pin_as_input	mini6410_1wire_interrupt.c	/^static void set_pin_as_input(void)$/;"	f	typeref:typename:void	file:
+set_pin_as_input	one-wire.c	/^static void set_pin_as_input(void)$/;"	f	typeref:typename:void	file:
+set_pin_as_output	mini6410_1wire_hrtimer.c	/^static void set_pin_as_output(void)$/;"	f	typeref:typename:void	file:
+set_pin_as_output	mini6410_1wire_interrupt.c	/^static void set_pin_as_output(void)$/;"	f	typeref:typename:void	file:
+set_pin_as_output	one-wire.c	/^static void set_pin_as_output(void)$/;"	f	typeref:typename:void	file:
+set_pin_value	mini6410_1wire_hrtimer.c	/^static void set_pin_value(int v)$/;"	f	typeref:typename:void	file:
+set_pin_value	mini6410_1wire_interrupt.c	/^static void set_pin_value(int v)$/;"	f	typeref:typename:void	file:
+set_pin_value	one-wire.c	/^static void set_pin_value(int v)$/;"	f	typeref:typename:void	file:
+start_one_wire_session	mini6410_1wire_interrupt.c	/^static void start_one_wire_session(unsigned char req)$/;"	f	typeref:typename:void	file:
+stop_timer_for_1wire	mini6410_1wire_interrupt.c	/^static inline void stop_timer_for_1wire(void)$/;"	f	typeref:typename:void	file:
+timer_for_1wire_interrupt	mini6410_1wire_hrtimer.c	/^static enum hrtimer_restart timer_for_1wire_interrupt(struct hrtimer *hrtimer)$/;"	f	typeref:enum:hrtimer_restart	file:
+timer_for_1wire_interrupt	mini6410_1wire_interrupt.c	/^static irqreturn_t timer_for_1wire_interrupt(int irq, void *dev_id)$/;"	f	typeref:typename:irqreturn_t	file:
+timer_for_1wire_irq	mini6410_1wire_interrupt.c	/^static struct irqaction timer_for_1wire_irq = {$/;"	v	typeref:struct:irqaction	file:
+total_error	mini6410_1wire_hrtimer.c	/^static unsigned total_received, total_error;$/;"	v	typeref:typename:unsigned	file:
+total_error	mini6410_1wire_interrupt.c	/^static unsigned total_received, total_error;$/;"	v	typeref:typename:unsigned	file:
+total_received	mini6410_1wire_hrtimer.c	/^static unsigned total_received, total_error;$/;"	v	typeref:typename:unsigned	file:
+total_received	mini6410_1wire_interrupt.c	/^static unsigned total_received, total_error;$/;"	v	typeref:typename:unsigned	file:
